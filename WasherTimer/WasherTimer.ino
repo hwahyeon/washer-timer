@@ -5,8 +5,8 @@
 const uint8_t PIN_POWER      = 2;
 const uint8_t PIN_POWER_LED  = 13;
 const uint8_t PIN_READVOLT   = 53;
-const uint8_t PIN_CLK        = 34;
-const uint8_t PIN_DIO        = 30;
+const uint8_t PIN_CLK        = 21;  // PD0
+const uint8_t PIN_DIO        = 20;  // PD1
 const uint8_t PIN_BUZZER     = 33;
 const uint8_t PIN_UP         = 25;  // PA3
 const uint8_t PIN_DOWN       = 26;  // PA4
