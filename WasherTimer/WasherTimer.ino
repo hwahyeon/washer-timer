@@ -3,6 +3,7 @@
 #include <TM1637Display.h>
 
 const uint8_t PIN_POWER      = 2;
+const uint8_t PIN_POWER_HOLD = 27;  // PA5, HIGH keeps the board powered after the power button is released
 const uint8_t PIN_POWER_LED  = 13;
 const uint8_t PIN_READVOLT   = 53;
 const uint8_t PIN_CLK        = 21;  // PD0
@@ -127,6 +128,7 @@ void enterOff() {
   setCylinder(true);
   setLeds(false, false);
   digitalWrite(PIN_POWER_LED, LOW);
+  digitalWrite(PIN_POWER_HOLD, LOW);  // power is cut when the button is released
   display.setBrightness(FND_BRIGHTNESS, false);
   display.clear();
   shownCount = -1;
@@ -139,6 +141,7 @@ void enterIdle() {
   setCylinder(true);
   setLeds(false, true);
   digitalWrite(PIN_POWER_LED, HIGH);
+  digitalWrite(PIN_POWER_HOLD, HIGH);
   display.setBrightness(FND_BRIGHTNESS, true);
   shownCount = -1;
   showTime(count);
@@ -180,6 +183,7 @@ void powerOnOff() {
 }
 
 void setup() {
+  pinMode(PIN_POWER_HOLD, OUTPUT);
   pinMode(PIN_POWER_LED, OUTPUT);
   pinMode(PIN_READVOLT, INPUT_PULLUP);
   pinMode(PIN_BUZZER, OUTPUT);
