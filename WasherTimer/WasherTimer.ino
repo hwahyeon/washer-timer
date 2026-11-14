@@ -12,10 +12,10 @@ const uint8_t PIN_UP         = 25;  // PA3
 const uint8_t PIN_DOWN       = 26;  // PA4
 const uint8_t PIN_STOP       = 23;  // PA1
 const uint8_t PIN_START      = 22;  // PA0
-const uint8_t PIN_RS         = 25;
 const uint8_t PIN_CYLINDER   = 29;
-const uint8_t PIN_START_LED  = 26;
-const uint8_t PIN_STOP_LED   = 22;
+const uint8_t PIN_START_LED  = A9;   // PK1 (LED1)
+const uint8_t PIN_STOP_LED   = A10;  // PK2 (LED2)
+const uint8_t LED_ON         = LOW;  // LEDs are active-low
 
 const int DEFAULT_SEC = 300;
 const int MIN_SEC     = 60;
@@ -109,8 +109,8 @@ void setCylinder(bool on) {
 
 void setLeds(bool startLed, bool stopLed) {
   startLedOn = startLed;
-  digitalWrite(PIN_START_LED, startLed ? HIGH : LOW);
-  digitalWrite(PIN_STOP_LED, stopLed ? HIGH : LOW);
+  digitalWrite(PIN_START_LED, startLed ? LED_ON : !LED_ON);
+  digitalWrite(PIN_STOP_LED, stopLed ? LED_ON : !LED_ON);
 }
 
 // TM1637 writes are slow, so only redraw when the value changes
@@ -183,11 +183,9 @@ void setup() {
   pinMode(PIN_POWER_LED, OUTPUT);
   pinMode(PIN_READVOLT, INPUT_PULLUP);
   pinMode(PIN_BUZZER, OUTPUT);
-  pinMode(PIN_RS, OUTPUT);
   pinMode(PIN_CYLINDER, OUTPUT);
   pinMode(PIN_START_LED, OUTPUT);
   pinMode(PIN_STOP_LED, OUTPUT);
-  digitalWrite(PIN_RS, LOW);
 
   buttonInit(btnUp);
   buttonInit(btnDown);
