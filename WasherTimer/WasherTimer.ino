@@ -13,7 +13,7 @@ const uint8_t PIN_UP         = 25;  // PA3
 const uint8_t PIN_DOWN       = 26;  // PA4
 const uint8_t PIN_STOP       = 23;  // PA1
 const uint8_t PIN_START      = 22;  // PA0
-const uint8_t PIN_CYLINDER   = 37;  // PC0 (CYLINDER1, P11)
+const uint8_t PIN_CYLINDER   = 37;  // PC0 (CYLINDER1, P11). P12 = 36 (PC1), P13 = 35 (PC2)
 const uint8_t PIN_START_LED  = A9;   // PK1 (LED1)
 const uint8_t PIN_STOP_LED   = A10;  // PK2 (LED2)
 const uint8_t LED_ON         = LOW;  // LEDs are active-low
