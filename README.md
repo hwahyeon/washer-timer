@@ -1,4 +1,4 @@
-# washer-timer
+# Washer Timer
 
 Timer firmware for a pneumatic cylinder washer.
 It repeatedly actuates a pneumatic cylinder for the duration set on the 4-digit display, then indicates completion using the buzzer and display.
