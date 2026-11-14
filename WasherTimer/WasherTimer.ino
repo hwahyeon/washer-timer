@@ -32,6 +32,7 @@ const unsigned long DONE_PHASE_MS      = 1000;
 const uint8_t       DONE_REPEAT        = 3;
 const unsigned int  BUZZER_HZ          = 2500;
 const uint8_t       FND_BRIGHTNESS     = 2;
+const bool          DIGITS_REVERSED    = false;  // set true if "1234" shows up as "4321"
 
 const uint8_t SEG_DONE[] = {
   SEG_B | SEG_C | SEG_D | SEG_E | SEG_G,           // d
@@ -114,11 +115,28 @@ void setLeds(bool startLed, bool stopLed) {
   digitalWrite(PIN_STOP_LED, stopLed ? LED_ON : !LED_ON);
 }
 
+// Writes 4 digits left to right, flipping the order if the FND is wired reversed
+void writeDigits(const uint8_t segs[4]) {
+  uint8_t out[4];
+  for (uint8_t i = 0; i < 4; i++) {
+    out[i] = segs[DIGITS_REVERSED ? 3 - i : i];
+  }
+  display.setSegments(out);
+}
+
 // TM1637 writes are slow, so only redraw when the value changes
 void showTime(int sec) {
   if (sec == shownCount) return;
   shownCount = sec;
-  display.showNumberDecEx((sec / 60) * 100 + sec % 60, 0b01000000, true);
+  int mm = sec / 60;
+  int ss = sec % 60;
+  uint8_t segs[4] = {
+    display.encodeDigit(mm / 10),
+    (uint8_t)(display.encodeDigit(mm % 10) | 0x80),  // DP separates MM and SS
+    display.encodeDigit(ss / 10),
+    display.encodeDigit(ss % 10),
+  };
+  writeDigits(segs);
 }
 
 void enterOff() {
@@ -158,7 +176,7 @@ void enterRunning(unsigned long now) {
 
 void doneStep() {
   if (donePhase % 2 == 0) {
-    display.setSegments(SEG_DONE);
+    writeDigits(SEG_DONE);
     tone(PIN_BUZZER, BUZZER_HZ, DONE_PHASE_MS);
   } else {
     display.clear();
